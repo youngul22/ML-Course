@@ -44,7 +44,7 @@ def whowin(user, computer):
     else:
         return "You lose!"
 
-"""Play Rock, Paper, Cissors with a user."""
+"""Play Rock, Paper, Cissors with a user"""
 def play():
     """User input"""
     user_choice = get_user_choice()
