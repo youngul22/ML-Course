@@ -42,7 +42,7 @@ class NumberGuesser:
                 
         print(f"Game over! The correct number was {self.number}.")
 
-class NumberhiHint:
+class NumberHint:
     def __init__(self, number, min_num, max_num):
         self.number = number
         self.min_num = min_num
