@@ -9,7 +9,7 @@ class NumberGuesser:
         self.remaining_hints = max_hints
         self.min_num = min_num
         self.max_num = max_num
-        self.hint_manager = NumberHint(self.number, self.min_num, self.max_num)
+        self.hint_manager = Hint(self.number, self.min_num, self.max_num)
 
     def play(self):
         print(f"Welcome to Number Guesser! I have chosen a number between {self.min_num} and {self.max_num}.")
@@ -19,7 +19,7 @@ class NumberGuesser:
             guess = input("Enter your guess: ")
             
             if guess.lower() == 'hint':
-                print(self.hint_manager.get_hint(self.remaining_hints))
+                print(self.hint_manager.get_hint())
                 if self.remaining_hints > 0:
                     self.remaining_hints -= 1
                 print(f"Remaining hints: {self.remaining_hints}")
@@ -42,14 +42,14 @@ class NumberGuesser:
                 
         print(f"Game over! The correct number was {self.number}.")
 
-class NumberHint:
+class Hint:
     def __init__(self, number, min_num, max_num):
         self.number = number
         self.min_num = min_num
         self.max_num = max_num
-        self._calculate_properties()
+        self._generate_hints()
 
-    def _calculate_properties(self):
+    def _generate_hints(self):
         self.factors = [i for i in range(1, self.number + 1) if self.number % i == 0]
         self.multiples = [self.number * i for i in range(1, 4) if self.number * i <= self.max_num]
         self.parity = f"The number is {'even' if self.number % 2 == 0 else 'odd'}."
@@ -66,12 +66,9 @@ class NumberHint:
         
         self.available_hints = {k: v for k, v in self.available_hints.items() if v is not None}
 
-    def get_hint(self, remaining_hints):
-        if remaining_hints == 0:
-            return "Sorry, you've used all your hints!"
-        
+    def get_hint(self):
         if not self.available_hints:
-            return "No more unique hints available!"
+            return "Sorry, no more hints!"
         
         chosen_hint = random.choice(list(self.available_hints.keys()))
         hint_message = self.available_hints.pop(chosen_hint)
