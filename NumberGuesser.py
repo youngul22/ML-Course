@@ -56,6 +56,9 @@ class Hint:
         self.larger_hint = f"The number is larger than {random.randint(self.min_num, self.number - 1)}." if self.number > self.min_num else None
         self.smaller_hint = f"The number is smaller than {random.randint(self.number + 1, self.max_num)}." if self.number < self.max_num else None
         
+        # dictionary to store hints
+        # only one ramdom choice among factors is stored
+        # only one random choice among mutiples is stored
         self.available_hints = {
             'factors': f"One factor of the number is {random.choice(self.factors)}." if self.factors else None,
             'multiples': f"One multiple of the number is {random.choice(self.multiples)}." if self.multiples else None,
@@ -71,6 +74,7 @@ class Hint:
             return "Sorry, no more hints!"
         
         chosen_hint = random.choice(list(self.available_hints.keys()))
+        # once a hint is used, it is removed from available hints
         hint_message = self.available_hints.pop(chosen_hint)
         
         return hint_message
@@ -78,6 +82,7 @@ class Hint:
 
 
 def main():
+    # an instance of NumberGuesser is created
     game = NumberGuesser(1, 15, 4, 4)
     game.play()
 
