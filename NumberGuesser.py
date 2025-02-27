@@ -1,6 +1,6 @@
 import random
 
-class Guesser:
+class NumberGuesser:
     def __init__(self, min_num=1, max_num=10, max_guesses=4, max_hints=3):
         self.number = random.randint(min_num, max_num)
         self.max_guesses = max_guesses
@@ -9,7 +9,7 @@ class Guesser:
         self.remaining_hints = max_hints
         self.min_num = min_num
         self.max_num = max_num
-        self.hint_manager = Hint(self.number, self.min_num, self.max_num)
+        self.hint_manager = NumberHint(self.number, self.min_num, self.max_num)
 
     def play(self):
         print(f"Welcome to Number Guesser! I have chosen a number between {self.min_num} and {self.max_num}.")
@@ -47,7 +47,6 @@ class Hint:
         self.number = number
         self.min_num = min_num
         self.max_num = max_num
-        self.used_hints = set()
         self._calculate_properties()
 
     def _calculate_properties(self):
@@ -56,12 +55,8 @@ class Hint:
         self.parity = f"The number is {'even' if self.number % 2 == 0 else 'odd'}."
         self.larger_hint = f"The number is larger than {random.randint(self.min_num, self.number - 1)}." if self.number > self.min_num else None
         self.smaller_hint = f"The number is smaller than {random.randint(self.number + 1, self.max_num)}." if self.number < self.max_num else None
-
-    def get_hint(self, remaining_hints):
-        if remaining_hints == 0:
-            return "Sorry, you've used all your hints!"
         
-        available_hints = {
+        self.available_hints = {
             'factors': f"One factor of the number is {random.choice(self.factors)}." if self.factors else None,
             'multiples': f"One multiple of the number is {random.choice(self.multiples)}." if self.multiples else None,
             'parity': self.parity,
@@ -69,19 +64,24 @@ class Hint:
             'smaller': self.smaller_hint
         }
         
-        unused_hints = [key for key, value in available_hints.items() if key not in self.used_hints and value is not None]
+        self.available_hints = {k: v for k, v in self.available_hints.items() if v is not None}
+
+    def get_hint(self, remaining_hints):
+        if remaining_hints == 0:
+            return "Sorry, you've used all your hints!"
         
-        if not unused_hints:
+        if not self.available_hints:
             return "No more unique hints available!"
         
-        chosen_hint = random.choice(unused_hints)
-        self.used_hints.add(chosen_hint)
+        chosen_hint = random.choice(list(self.available_hints.keys()))
+        hint_message = self.available_hints.pop(chosen_hint)
         
-        return available_hints[chosen_hint]
+        return hint_message
+    
 
 
 def main():
-    game = Guesser()
+    game = NumberGuesser(1, 15, 4, 4)
     game.play()
 
 if __name__ == "__main__":
