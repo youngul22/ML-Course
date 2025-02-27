@@ -56,9 +56,9 @@ class Hint:
         self.larger_hint = f"The number is larger than {random.randint(self.min_num, self.number - 1)}." if self.number > self.min_num else None
         self.smaller_hint = f"The number is smaller than {random.randint(self.number + 1, self.max_num)}." if self.number < self.max_num else None
         
-        # dictionary to store hints
-        # only one ramdom choice among factors is stored
-        # only one random choice among mutiples is stored
+        # a dictionary to store hints
+        # only one ramdom choice among factors is used as a hint
+        # only one random choice among mutiples is used
         self.available_hints = {
             'factors': f"One factor of the number is {random.choice(self.factors)}." if self.factors else None,
             'multiples': f"One multiple of the number is {random.choice(self.multiples)}." if self.multiples else None,
