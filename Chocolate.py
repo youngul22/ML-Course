@@ -41,7 +41,7 @@ plt.hist(df['Rating'], bins=20, edgecolor='black')
 plt.title('Distribution of Chocolate Bar Ratings')
 plt.xlabel('Rating')
 plt.ylabel('Frequency')
-plt.show()
+#plt.show()
 
 # Convert and Visualize.
 # Convert the Column Percent.
@@ -53,7 +53,7 @@ plt.hist(df['Cocoa Percent'], bins=20, edgecolor='black')
 plt.title('Distribution of Cocoa Percent')
 plt.xlabel('Cocoa Percent')
 plt.ylabel('Frequency')
-plt.show()
+#plt.show()
 
 ######## Step 6 Normalization
 # Normalize the Rating Column and print the results.
